@@ -59,7 +59,7 @@ func (w *WeekDate) ShortDates(week int, include bool) []string {
 	w.monday()
 
 	if !include {
-		w.skipShortWeek(week)
+		w.oneShortWeek(week)
 		return w.shortDates
 	}
 
@@ -72,7 +72,7 @@ func (w *WeekDate) ShortDates(week int, include bool) []string {
 	return w.shortDates
 }
 
-// FullDates returns array of full dates formatted as "02.01.2006" (day, month, year).
+// FullDates returns array of dates formatted as "02.01.2006" (day, month, year).
 //
 // week is necessary to get dates from weekStart to given week number.
 //
@@ -83,7 +83,7 @@ func (w *WeekDate) FullDates(week int, include bool) []string {
 	w.monday()
 
 	if !include {
-		w.skipFullWeek(week)
+		w.oneFullWeek(week)
 		return w.fullDates
 	}
 
@@ -99,7 +99,7 @@ func (w *WeekDate) FullDates(week int, include bool) []string {
 // currentDay sets day and weekday from specified weekStart
 // for curDay.
 func (w *WeekDate) currentDay() {
-	w.curDay = w.weekStart.In(location(w.location))
+	w.curDay = w.weekStart.In(setLocation(w.location))
 	w.weekDay = w.curDay.Weekday()
 }
 
@@ -116,8 +116,9 @@ func (w *WeekDate) monday() {
 	w.fullDate = w.curDay.Format("02.01.2006")
 }
 
-// skipShortWeek skips weeks to get dates formatted as ("02.01") of the one given week if include in ShortDates is false.
-func (w *WeekDate) skipShortWeek(week int) {
+// oneShortWeek skips weeks starting from weekStart
+// to get dates formatted as ("02.01") of the one given week if include in ShortDates is false.
+func (w *WeekDate) oneShortWeek(week int) {
 	skipWeek := 7*week - 7
 
 	for weekDay := 1; weekDay <= skipWeek; weekDay++ {
@@ -132,8 +133,9 @@ func (w *WeekDate) skipShortWeek(week int) {
 	}
 }
 
-// skipFullWeek skips weeks to get dates formatted as ("02.01.2006") of the one given week if include in FullDates is false.
-func (w *WeekDate) skipFullWeek(week int) {
+// oneFullWeek skips weeks starting from weekStart
+// to get dates formatted as ("02.01.2006") of the one given week if include in FullDates is false.
+func (w *WeekDate) oneFullWeek(week int) {
 	skipWeek := 7*week - 7
 
 	for weekDay := 1; weekDay <= skipWeek; weekDay++ {
@@ -148,12 +150,12 @@ func (w *WeekDate) skipFullWeek(week int) {
 	}
 }
 
-// location sets given location with time.LoadLocation.
+// setLocation sets given location with time.LoadLocation.
 // Fatales if cannot load given location.
-func location(location string) *time.Location {
+func setLocation(location string) *time.Location {
 	loc, err := time.LoadLocation(location)
 	if err != nil {
-		log.Fatalf("failed to load a location: %v", err)
+		log.Fatalf("failed to load a setLocation: %v", err)
 	}
 
 	return loc
