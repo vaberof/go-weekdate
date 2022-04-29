@@ -1,4 +1,4 @@
-package goweekdate
+package weekdate
 
 import (
 	"log"
