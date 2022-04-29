@@ -8,22 +8,22 @@
 
 ## Example
 
-``` 
+```go 
 package main
 
 import (
     "time"
     "fmt"
     
-    github.com/vaberof/goweekdate
+    "github.com/vaberof/goweekdate"
 )
 
-func ExampleDate() {
+func Example() {
     // Create new WeekDate object with specified startWeek and location.
-    // With settled parameter startWeek as time.Now() calculations 
+    // With setted parameter startWeek as time.Now() calculations 
     // will be making from current week and 
     // as time.Now().Add(-time.Hour * 24 * 7) from previous week.
-    weekDate := goweekdate.New(time.Now(), "Asia/Novosibirsk")
+    weekDate := weekdate.New(time.Now(), "Asia/Novosibirsk")
 
     // Get names of the week days.
     weekDays := weekDate.WeekDays()
@@ -42,6 +42,6 @@ func ExampleDate() {
 }
 
 func main() {
-    ExampleDate()
+    Example()
 }
 ```
