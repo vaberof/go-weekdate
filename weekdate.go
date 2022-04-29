@@ -11,12 +11,12 @@ type WeekDate struct {
 	curDay    time.Time
 	weekStart time.Time
 	weekDay   time.Weekday
-	weekDays  []time.Weekday
 
 	location  string
 	shortDate string
 	fullDate  string
 
+	weekDays   []string
 	shortDates []string
 	fullDates  []string
 }
@@ -35,12 +35,12 @@ func New(weekStart time.Time, location string) *WeekDate {
 }
 
 // WeekDays returns array of the names of the week days.
-func (w *WeekDate) WeekDays() []time.Weekday {
-	w.weekDays = []time.Weekday{}
+func (w *WeekDate) WeekDays() []string {
+	w.weekDays = []string{}
 	w.monday()
 
 	for weekDay := 1; weekDay <= 7; weekDay++ {
-		w.weekDays = append(w.weekDays, w.weekDay)
+		w.weekDays = append(w.weekDays, w.weekDay.String())
 		w.curDay = w.curDay.Add(time.Hour * 24)
 		w.weekDay = w.curDay.Weekday()
 	}
