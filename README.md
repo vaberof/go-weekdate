@@ -12,7 +12,7 @@
 weekDate := weekdate.New(time.Now(), "Asia/Novosibirsk")
 ```
 
-With setted first parameter `startWeek` as time.Now() calculations will be making from current week. You can modify it
+With setting first parameter `startWeek` as time.Now() calculations will be making from monday of current week. You can modify it
 by using time.Now().Add() method to make calculations from previous/next week(s).
 
 The second parameter `location` is need to make calculations relative to your location.
@@ -20,11 +20,11 @@ The second parameter `location` is need to make calculations relative to your lo
 ## Methods
 
 - `WeekDays()` returns array of the names of the week days;
-- `ShortDates(week int, include bool)` returns dates formatted as "02.01" (day, month).
+- `ShortDates(week int, include bool)` returns array of the dates formatted as "02.01" (day, month).
   `week` is necessary to calculate dates starting from `startWeek` to given `week`. If `include` is true you will
   get dates in range of all weeks in a row. If it`s false, you will get dates of only the last given week;
-- `FullDates(week int, include bool)`  returns dates formatted as "02.01.2006" (day, month, year). The same parameters
-  as in `ShortDates()`.
+- `FullDates(week int, include bool)`  returns array of the dates formatted as "02.01.2006" (day, month, year). The same parameters
+  as in `ShortDates` method.
 
 ## Example
 
