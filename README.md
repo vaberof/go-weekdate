@@ -25,7 +25,7 @@ The second parameter `location` is need to make calculations relative to your lo
   dates in range of all weeks in a row. If it`s false, you will get dates of only the last given week;
 - `FullDates(week int, include bool)`  returns array of the dates formatted as "02.01.2006" (day, month, year). The same
   parameters as in `ShortDates` method;
-- `DaysAndDates(week time.Time)` returns map of days and dates of the `weekStart`.
+- `DaysAndDates()` returns map of days and dates of the `weekStart`.
 
 ## Example
 
