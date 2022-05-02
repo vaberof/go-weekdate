@@ -16,9 +16,10 @@ type WeekDate struct {
 	shortDate string
 	fullDate  string
 
-	weekDays   []string
-	shortDates []string
-	fullDates  []string
+	weekDays     []string
+	shortDates   []string
+	fullDates    []string
+	daysAndDates map[string]string
 }
 
 // New creates a new WeekDate object from the specified weekStart and location.
@@ -29,8 +30,9 @@ type WeekDate struct {
 // location represents given location of type string which will be used as time.Location to set it.
 func New(weekStart time.Time, location string) *WeekDate {
 	return &WeekDate{
-		weekStart: weekStart,
-		location:  location,
+		weekStart:    weekStart,
+		location:     location,
+		daysAndDates: map[string]string{},
 	}
 }
 
@@ -59,7 +61,7 @@ func (w *WeekDate) ShortDates(week int, include bool) []string {
 	w.monday()
 
 	if !include {
-		w.oneShortWeek(week)
+		w.shortWeek(week)
 		return w.shortDates
 	}
 
@@ -83,7 +85,7 @@ func (w *WeekDate) FullDates(week int, include bool) []string {
 	w.monday()
 
 	if !include {
-		w.oneFullWeek(week)
+		w.fullWeek(week)
 		return w.fullDates
 	}
 
@@ -94,6 +96,52 @@ func (w *WeekDate) FullDates(week int, include bool) []string {
 	}
 
 	return w.fullDates
+}
+
+// DaysAndDates returns map of days and dates of the weekStart, where day is a key and date is a value.
+func (w *WeekDate) DaysAndDates() map[string]string {
+	w.monday()
+
+	for weekDay := 1; weekDay <= 7; weekDay++ {
+		w.daysAndDates[w.curDay.Weekday().String()] = w.curDay.Format("02.01.2006")
+		w.curDay = w.curDay.Add(time.Hour * 24)
+	}
+
+	return w.daysAndDates
+}
+
+// shortWeek skips weeks starting from weekStart
+// to get dates formatted as ("02.01") of the one given week if include in ShortDates is false.
+func (w *WeekDate) shortWeek(week int) {
+	skipWeek := 7*week - 7
+
+	for weekDay := 1; weekDay <= skipWeek; weekDay++ {
+		w.curDay = w.curDay.Add(time.Hour * 24)
+	}
+	w.shortDate = w.curDay.Format("02.01.2006")
+
+	for weekDay := 1; weekDay <= 7; weekDay++ {
+		w.shortDates = append(w.shortDates, w.shortDate)
+		w.curDay = w.curDay.Add(time.Hour * 24)
+		w.shortDate = w.curDay.Format("02.01")
+	}
+}
+
+// fullWeek skips weeks starting from weekStart
+// to get dates formatted as ("02.01.2006") of the one given week if include in FullDates is false.
+func (w *WeekDate) fullWeek(week int) {
+	skipWeek := 7*week - 7
+
+	for weekDay := 1; weekDay <= skipWeek; weekDay++ {
+		w.curDay = w.curDay.Add(time.Hour * 24)
+	}
+	w.fullDate = w.curDay.Format("02.01.2006")
+
+	for weekDay := 1; weekDay <= 7; weekDay++ {
+		w.fullDates = append(w.fullDates, w.fullDate)
+		w.curDay = w.curDay.Add(time.Hour * 24)
+		w.fullDate = w.curDay.Format("02.01.2006")
+	}
 }
 
 // currentDay sets day and weekday from specified weekStart
@@ -114,40 +162,6 @@ func (w *WeekDate) monday() {
 
 	w.shortDate = w.curDay.Format("02.01")
 	w.fullDate = w.curDay.Format("02.01.2006")
-}
-
-// oneShortWeek skips weeks starting from weekStart
-// to get dates formatted as ("02.01") of the one given week if include in ShortDates is false.
-func (w *WeekDate) oneShortWeek(week int) {
-	skipWeek := 7*week - 7
-
-	for weekDay := 1; weekDay <= skipWeek; weekDay++ {
-		w.curDay = w.curDay.Add(time.Hour * 24)
-		w.shortDate = w.curDay.Format("02.01.2006")
-	}
-
-	for weekDay := 1; weekDay <= 7; weekDay++ {
-		w.shortDates = append(w.shortDates, w.shortDate)
-		w.curDay = w.curDay.Add(time.Hour * 24)
-		w.shortDate = w.curDay.Format("02.01")
-	}
-}
-
-// oneFullWeek skips weeks starting from weekStart
-// to get dates formatted as ("02.01.2006") of the one given week if include in FullDates is false.
-func (w *WeekDate) oneFullWeek(week int) {
-	skipWeek := 7*week - 7
-
-	for weekDay := 1; weekDay <= skipWeek; weekDay++ {
-		w.curDay = w.curDay.Add(time.Hour * 24)
-		w.fullDate = w.curDay.Format("02.01.2006")
-	}
-
-	for weekDay := 1; weekDay <= 7; weekDay++ {
-		w.fullDates = append(w.fullDates, w.fullDate)
-		w.curDay = w.curDay.Add(time.Hour * 24)
-		w.fullDate = w.curDay.Format("02.01.2006")
-	}
 }
 
 // setLocation sets given location with time.LoadLocation.
