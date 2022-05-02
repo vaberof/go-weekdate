@@ -4,7 +4,7 @@
 
 ## Installation
 
-    $ go get github.com/vaberof/goweekdate
+    go get github.com/vaberof/goweekdate
 
 ## Initialization
 
@@ -12,8 +12,8 @@
 weekDate := weekdate.New(time.Now(), "Asia/Novosibirsk")
 ```
 
-With setting first parameter `weekStart` as time.Now() calculations will be making from monday of current week. You can
-modify it by using time.Now().Add() method to make calculations from previous/next week(s).
+With setting first parameter `weekStart` as _time.Now()_ calculations will be making from monday of current week. You can
+modify it by using _time.Now().Add()_ method to make calculations from previous/next week(s).
 
 The second parameter `location` is need to make calculations relative to your location.
 
