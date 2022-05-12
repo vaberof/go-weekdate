@@ -52,13 +52,13 @@ func (w *WeekDate) WeekDays() []time.Weekday {
 
 // StringWeekDays returns array of type string of the names of the week days.
 func StringWeekDays(weekDays []time.Weekday) []string {
-	var formattedWeekDays []string
+	var stringWeekDays []string
 
 	for i := 0; i < len(weekDays); i++ {
-		formattedWeekDays = append(formattedWeekDays, weekDays[i].String())
+		stringWeekDays = append(stringWeekDays, weekDays[i].String())
 	}
 
-	return formattedWeekDays
+	return stringWeekDays
 }
 
 // Dates returns array of type time.Time of dates.
