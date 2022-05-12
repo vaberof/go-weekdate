@@ -6,27 +6,6 @@
 
     go get github.com/vaberof/goweekdate
 
-## Initialization
-
-```go
-weekDate := weekdate.New(time.Now(), "Asia/Novosibirsk")
-```
-
-With setting first parameter `weekStart` as _time.Now()_ calculations will be making from monday of current week. You can
-modify it by using _time.Now().Add()_ method to make calculations from previous/next week(s).
-
-The second parameter `location` is need to make calculations relative to your location.
-
-## Methods
-
-- `WeekDays()` returns array of the names of the week days;
-- `ShortDates(week int, include bool)` returns array of the dates formatted as "02.01" (day, month).
-  `week` is necessary to calculate dates starting from `weekStart` to given `week`. If `include` is true you will get
-  dates in range of all weeks in a row. If it`s false, you will get dates of only the last given week;
-- `FullDates(week int, include bool)`  returns array of the dates formatted as "02.01.2006" (day, month, year). The same
-  parameters as in `ShortDates` method;
-- `DaysAndDates()` returns map of days and dates of the `weekStart`.
-
 ## Example
 
 ```go 
